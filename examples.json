@@ -1,0 +1,32 @@
+[
+    {
+        "verse": "അനൂനനൂന്നാനനനുന്നനിത്യൈ,\nസ്സമാഹതാശ്ചക്രകലാവിഭക്താഃ,\nചണ്ഡാംശുചന്ദ്രാധമകുംഭിപാലൈര്‍,\nവ്യാസസ്തദര്‍ദ്ധം ത്രിഭമൗര്‍വിക സ്യാത്‌",
+        "description": "Encodes the value of π -- First value is the diameter of the circle, and third value is its circumference ",
+        "reverse": true
+    },
+    {
+        "verse": "भद्राम्बुद्धिसिद्धजन्मगणितश्रद्धा स्म यद् भूपगी:",
+        "description": "Encodes the value of π",
+        "reverse": true
+    },
+    {
+        "verse": " ಗೋಪೀಭಾಗ್ಯಮಧುವ್ರಾತ-ಶೃಂಗಿಶೋದಧಿಸಂಧಿಗ ||\nಖಲಜೀವಿತಖಾತಾವ ಗಲಹಾಲಾರಸಂಧರ ||",
+        "description": "Encodes the value of π",
+        "reverse": false
+    },
+    {
+        "verse": "āyurārogyasaukhyam",
+        "description": "The number of days since the begining of Kaliyuga when writing of <a href=\"http://www.namboothiri.com/articles/katapayaadi.htm#Representation_of_dates\" target=\"_blank\">Narayaniyam</a> was completed.",
+        "reverse": true
+    },
+    {
+        "verse": "ಆಚಾರ್ಯವಾಗಭೇದ್ಯಾ",
+        "description": "The number of days since the begining of Kaliyuga when Śaṃkarācārya introduced several reforms<small><a href=\"https://web.archive.org/web/20090906215627/http://findarticles.com/p/articles/mi_m1310/is_1989_Nov/ai_8171045/\" target=\"_blank\">[source]</a></small>",
+        "reverse": true
+    },
+    {
+        "verse": "പല,ഹാരേ, പാലു, നല്ലൂ, പുല,ര്‍ന്നാലോ, കല,ക്കിലാം,\nഇല്ലാ, പാലെ,ന്നു ഗോ,പാലന്‍ ,– ആംഗ്ലമാസദിനം ക്രമാല്‍",
+        "description": "Encodes number of days in 12 months of Gregorian Calander",
+        "reverse": true
+    }
+]
