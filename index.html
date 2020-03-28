@@ -60,7 +60,7 @@
                                 </svg>`
                             )
                         ),
-                    ).appendTo("#examples")
+                    ).appendTo("#examples");
                 });
                 $(".try").click(e => {
                     let tds = $(e.currentTarget).closest("tr").find("td");
@@ -87,6 +87,10 @@
     <style>
         textarea {
             resize: none;
+        }
+
+        #sticky-footer {
+            flex-shrink: none;
         }
     </style>
 </head>
@@ -161,7 +165,7 @@
     <div class="container container-fluid">
         <h4>Examples</h4>
         <div class="table-responsive">
-            <table id="examples" class="table ">
+            <table id="examples" class="table table-borderless">
                 <thead>
                     <tr>
                         <th scope="col">Verse</th>
@@ -173,6 +177,14 @@
             </table>
         </div>
     </div>
+    <footer id="sticky-footer" class="py-4 bg-dark">
+        <div class="container text-center">
+            <small class="text-white-50">This <a href="https://github.com/vinayakakv/katapayadi_decoder" target="_blank">open source</a>
+                project was developed during a lockdown to contain <a
+                    href="https://en.wikipedia.org/wiki/Coronavirus_disease_2019" target="_blank">COVID 19</a> outbreak
+                in </small> 🇮🇳
+        </div>
+    </footer>
 </body>
 
 </html>
