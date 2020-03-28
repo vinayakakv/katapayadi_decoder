@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kaṭapayādi decoder</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.js"
@@ -32,7 +33,7 @@
                     target: "Kannada"
                 }, response => {
                     $('#converted').val(response);
-                    let result = response.split(' ').map(katapayadi_decode);
+                    let result = response.split(',').map(katapayadi_decode);
                     if (reverse)
                         result = result.map(s => s.split("").reverse().join(""));
                     $('#output').html(
@@ -41,14 +42,37 @@
                     $('#submit').html(oldHtml);
                 });
             });
-            $('#inputLang').change(e => {
-                let target_script = $('#inputLang').val();
-                $.post("//aksharamukha.appspot.com/api/public", {
-                    text: "ಕಟಪಯಾದಿ",
-                    target: target_script
-                }, response => $('.verse').get().map(x => x.innerHTML = response));
+            $.getJSON("examples.json", data => {
+                data.forEach(example => {
+                    $("<tr>").append(
+                        $("<td>").html(example['verse'].replace(/\n/g, "<br/>")),
+                        $("<td>").html(example['description']),
+                        $("<td>").text(example['reverse']),
+                        $("<td>").append(
+                            $("<button>").attr({
+                                "class": "btn btn-outline-dark try",
+                            }).html(
+                                `<svg class="bi bi-chevron-double-right" width="1em" height="1em" viewBox="0 0 16 16"
+                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M3.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L9.293 8 3.646 2.354a.5.5 0 010-.708z"
+                                        clip-rule="evenodd" />
+                                </svg>`
+                            )
+                        ),
+                    ).appendTo("#examples")
+                });
+                $(".try").click(e => {
+                    let tds = $(e.currentTarget).closest("tr").find("td");
+                    let verse = tds[0].innerHTML.replace(/<br[/]?>/g, '\n');
+                    let reverse = (tds[2].textContent == "true");
+                    $('#source').val(verse);
+                    $('#reverse').prop('checked', reverse);
+                    $('body, html').animate({ scrollTop: 0 });
+                    $('#submit').click();
+                });
             });
-        })
+        });
         $(document).on('click', 'a[href^="#"]', function (e) {
             var id = $(this).attr('href');
             var $id = $(id);
@@ -71,119 +95,24 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container container-fluid">
             <h2>Kaṭapayādi decoder</h2>
-            <p class="lead"><a href="https://en.wikipedia.org/wiki/Katapayadi_system" target="_blank"><span
-                        class="verse">ಕಟಪಯಾದಿ</span>
-                    system</a> is an ancient number encoding scheme widely used in Kerala...<small><a
+            <p class="lead"><a href="https://en.wikipedia.org/wiki/Katapayadi_system" target="_blank">Kaṭapayādi
+                    system</a> is an ancient number encoding scheme which was widely used in Kerala...<small><a
                         href="#examples">Examples</a></small></p>
             <hr class="my-4">
             <div class="d-flex justify-content-center text-center">
                 <form>
                     <div class="form-row">
-                        <div class="col form-group">
-                            <label for="inputLang" class="">Read in</label>
-                            <select id="inputLang" class="form-control border border-dark">
-                                <option value="Kannada">Choose...</option>
-                                <option value="Ahom"> Ahom </option>
-                                <option value="Ariyaka"> Ariyaka </option>
-                                <option value="Assamese"> Assamese </option>
-                                <option value="Avestan"> Avestan </option>
-                                <option value="Balinese"> Balinese </option>
-                                <option value="BatakKaro"> Batak Karo </option>
-                                <option value="BatakManda"> Batak Mandailing </option>
-                                <option value="BatakPakpak"> Batak Pakpak </option>
-                                <option value="BatakSima"> Batak Simalungun </option>
-                                <option value="BatakToba"> Batak Toba </option>
-                                <option value="Bengali"> Bengali </option>
-                                <option value="Bhaiksuki"> Bhaiksuki </option>
-                                <option value="Brahmi"> Brahmi </option>
-                                <option value="Buginese"> Buginese (Lontara) </option>
-                                <option value="Buhid"> Buhid </option>
-                                <option value="Burmese"> Burmese (Myanmar) </option>
-                                <option value="Chakma"> Chakma </option>
-                                <option value="Cham"> Cham </option>
-                                <option value="RussianCyrillic"> Cyrillic (Russian) </option>
-                                <option value="Devanagari"> Devanagari </option>
-                                <option value="Dogra"> Dogra </option>
-                                <option value="GunjalaGondi"> Gondi (Gunjala) </option>
-                                <option value="MasaramGondi"> Gondi (Masaram) </option>
-                                <option value="Grantha"> Grantha </option>
-                                <option value="GranthaPandya"> Grantha (Pandya) </option>
-                                <option value="Gujarati"> Gujarati </option>
-                                <option value="Hanunoo"> Hanunoo </option>
-                                <option value="Javanese"> Javanese </option>
-                                <option value="Kaithi"> Kaithi </option>
-                                <option value="Kannada" selected> Kannada </option>
-                                <option value="KhamtiShan"> Khamti Shan </option>
-                                <option value="Kharoshthi"> Kharoshthi </option>
-                                <option value="Khmer"> Khmer (Cambodian) </option>
-                                <option value="Khojki"> Khojki </option>
-                                <option value="KhomThai"> Khom Thai </option>
-                                <option value="Khudawadi"> Khudawadi </option>
-                                <option value="Lao"> Lao </option>
-                                <option value="LaoPali"> Lao (Pali) </option>
-                                <option value="Lepcha"> Lepcha </option>
-                                <option value="Limbu"> Limbu </option>
-                                <option value="Mahajani"> Mahajani </option>
-                                <option value="Malayalam"> Malayalam </option>
-                                <option value="Marchen"> Marchen </option>
-                                <option value="MeeteiMayek"> Meetei Mayek (Manipuri) </option>
-                                <option value="Modi"> Modi </option>
-                                <option value="Mon"> Mon </option>
-                                <option value="Mro"> Mro </option>
-                                <option value="Multani"> Multani </option>
-                                <option value="Newa"> Newa (Nepal Bhasa) </option>
-                                <option value="OldPersian"> Old Persian </option>
-                                <option value="Oriya"> Oriya </option>
-                                <option value="PhagsPa"> PhagsPa </option>
-                                <option value="Gurmukhi"> Punjabi (Gurmukhi) </option>
-                                <option value="Ranjana"> Ranjana (Lantsa) </option>
-                                <option value="Rejang"> Rejang </option>
-                                <option value="HanifiRohingya"> Rohingya (Hanifi) </option>
-                                <option value="HK"> Roman (Harvard-Kyoto) </option>
-                                <option value="IAST"> Roman (IAST) </option>
-                                <option value="IASTPali"> Roman (IAST: Pāḷi) </option>
-                                <option value="IPA"> Roman (IPA) </option>
-                                <option value="ISO"> Roman (ISO 15919) </option>
-                                <option value="Itrans"> Roman (ITRANS) </option>
-                                <option value="RomanReadable"> Roman (Readable) </option>
-                                <option value="Titus"> Roman (Titus) </option>
-                                <option value="Velthuis"> Roman (Velthuis) </option>
-                                <option value="Santali"> Santali (Ol Chiki) </option>
-                                <option value="Saurashtra"> Saurashtra </option>
-                                <option value="Shan"> Shan </option>
-                                <option value="Sharada"> Sharada </option>
-                                <option value="Siddham"> Siddham </option>
-                                <option value="Sinhala"> Sinhala </option>
-                                <option value="SoraSompeng"> Sora Sompeng </option>
-                                <option value="Soyombo"> Soyombo </option>
-                                <option value="Sundanese"> Sundanese </option>
-                                <option value="SylotiNagri"> Syloti Nagari </option>
-                                <option value="Tagalog"> Tagalog </option>
-                                <option value="Tagbanwa"> Tagbanwa </option>
-                                <option value="TaiLaing"> Tai Laing </option>
-                                <option value="TaiTham"> Tai Tham (Lanna) </option>
-                                <option value="Takri"> Takri </option>
-                                <option value="Tamil"> Tamil </option>
-                                <option value="TamilGrantha"> Tamil (Extended) </option>
-                                <option value="TamilBrahmi"> Tamil Brahmi </option>
-                                <option value="Telugu"> Telugu </option>
-                                <option value="Thaana"> Thaana (Dhivehi) </option>
-                                <option value="Thai"> Thai </option>
-                                <option value="Tibetan"> Tibetan </option>
-                                <option value="Tirhuta"> Tirhuta (Maithili) </option>
-                                <option value="Urdu"> Urdu </option>
-                                <option value="Vatteluttu"> Vatteluttu </option>
-                                <option value="Wancho"> Wancho </option>
-                                <option value="WarangCiti"> Warang Citi </option>
-                                <option value="ZanabazarSquare"> Zanabazar Square </option>
-                            </select>
-                        </div>
+                        <h4>&nbsp;&nbsp;Read its background and algorithms <a
+                                href="https://vinayakakv.github.io/posts/decoding-aksharas/" target="_blank"> here</a>
+                        </h4>
+                        <br />
                     </div>
                     <div class="form-row">
                         <div class="col form-check">
                             <input class="form-check-input" type="checkbox" id="reverse">
                             <label class="form-check-label" for="reverse">
-                                Reverse result after decoding&nbsp;<small>(Seperate input text using space)</small>
+                                Reverse result after decoding&nbsp;<small>(Seperate input text using commas
+                                    <code>(,)</code></small>)
                             </label>
                         </div>
                     </div>
@@ -192,43 +121,57 @@
         </div>
     </div>
     <div class="container container-fluid">
-        <div class="form-row">
-            <div class="col-lg">
-                <div class="form-group">
-                    <label for="source">Input</label>
-                    <div class="input-group mb-3">
-                        <textarea class="form-control border border-dark" rows=10 id="source"></textarea>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-dark" type="button" id="submit">
-                                <svg class="bi bi-chevron-double-right" width="1em" height="1em" viewBox="0 0 16 16"
-                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M3.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L9.293 8 3.646 2.354a.5.5 0 010-.708z"
-                                        clip-rule="evenodd" />
-                                    <path fill-rule="evenodd"
-                                        d="M7.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L13.293 8 7.646 2.354a.5.5 0 010-.708z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </button>
+        <form>
+            <div class="form-row">
+                <div class="col-lg">
+                    <div class="form-group">
+                        <label for="source">Input</label>
+                        <div class="input-group mb-3">
+                            <textarea class="form-control border border-dark" rows=10 id="source"></textarea>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-dark" type="button" id="submit">
+                                    <svg class="bi bi-chevron-double-right" width="1em" height="1em" viewBox="0 0 16 16"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M3.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L9.293 8 3.646 2.354a.5.5 0 010-.708z"
+                                            clip-rule="evenodd" />
+                                        <path fill-rule="evenodd"
+                                            d="M7.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L13.293 8 7.646 2.354a.5.5 0 010-.708z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg">
-                <div class="form-group">
-                    <label for="converted">Kannada Transliteration</label>
-                    <textarea class="form-control border border-dark" rows=10 id="converted" disabled></textarea>
+                <div class="col-lg">
+                    <div class="form-group">
+                        <label for="converted">Kannada Transliteration</label>
+                        <textarea class="form-control border border-dark" rows=10 id="converted" disabled></textarea>
+                    </div>
+                </div>
+                <div class="col-lg">
+                    <label>Decoded value</label>
+                    <div id="output"></div>
                 </div>
             </div>
-            <div class="col-lg">
-                <label>Decoded value</label>
-                <div id="output"></div>
-            </div>
-        </div>
+        </form>
     </div>
     <hr class="my-4">
-    <div class="container container-fluid" id="examples">
-
+    <div class="container container-fluid">
+        <h4>Examples</h4>
+        <div class="table-responsive">
+            <table id="examples" class="table ">
+                <thead>
+                    <tr>
+                        <th scope="col">Verse</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Reverse</th>
+                        <th scope="col">Try</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 </body>
 
