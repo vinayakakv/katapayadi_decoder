@@ -8,7 +8,7 @@ This decoder depends on [Kannada Tokenizer](https://github.com/vinayakakv/akshar
 The decoder is written as a ES6 Module, which you need to [`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) in your code. This can be done as follows.
 ```js
 <script type="module">
-        import { katapayadi_decode } from "https://cdn.jsdelivr.net/gh/vinayakakv/katapayadi_decoder/katapayadi_decoder.js"
+        import { katapayadi_decode } from "https://cdn.jsdelivr.net/gh/vinayakakv/katapayadi_decoder@1.0.0/katapayadi_decoder.js"
         .
         .
         .
