@@ -1,3 +1,5 @@
+Deprecated in favour of [Akshara](https://akshara.vinayakakv.com)
+
 # katapayadi_decoder
 Kaṭapayādi system is a character to number encoding scheme, which was developed and used by mathematicians of India to encode large numbers into meaningful, and easy-to-remember verses. Read more about it at [blog](https://vinayakakv.github.io/posts/decoding-aksharas/). Its demo is available [here](https://vinayakakv.github.io/katapayadi_decoder/)
 
